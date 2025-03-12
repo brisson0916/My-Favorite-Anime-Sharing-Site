@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Anime List Share{% endblock %}
+
+{% block content %}
+<div class="container">
+  {% if view_author: %}
+  <h1 class="heading py-3 pb-5">Lists by {{view_author}}</h1>
+
+  {% else: %}
+    <h1 class="heading py-3">My Favorite Anime</h1>
+    {% if current_user.is_authenticated: %}
+    <p class="description">You are currently logged in as
+      <a href="#">{{ current_user.name }}</a>
+      (User Id : {{current_user.id}})
+    </p>
+    {% else: %}
+    <p class="description">Create your list of top 10 anime and share it with others!</p>
+    {% endif %}
+  {% endif %}
+
+  {% for list in all_lists %}
+      <div>
+        <a href="{{url_for('show_list', anime_list_id=list.id)}}">
+          <h2 class="post-title">{{ list.name }}</h2>
+        </a>
+        <p class="post-meta">
+          Modified by
+          <a href="{{url_for('lists_by_selected_author', author_name=list.author.name )}}">{{list.author.name}}</a>
+          <!-- format date into readable format -->
+          on {{list.date_modified.strftime("%I:%M%p, %d %B %Y")}}
+          <!-- Only show delete button if list belongs to user, or if user is admin -->
+        </p>
+          {% if current_user.id == list.author.id or current_user.id == 1: %}
+          <a
+          class="btn btn-danger btn-sm float-right"
+          href="{{url_for('delete_list', anime_list_id=list.id)}}"
+          >Delete List
+          </a>
+          {% endif %}
+      </div>
+      <!-- Divider-->
+      <hr class="my-4" />
+  {% endfor %}
+</div>
+
+<div class="container text-center add">
+{% if current_user.is_authenticated: %}
+  <a href="{{url_for('create_list')}}" class="btn btn-primary mb-5">Create List</a>
+{% else: %}
+  <a href="{{url_for('login', message='Please Log in to create a list')}}" class="btn btn-primary mb-5">Create List</a>
+{% endif %}
+
+</div>
+{% endblock %}

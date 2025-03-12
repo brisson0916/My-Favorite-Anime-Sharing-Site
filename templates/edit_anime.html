@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Anime{% endblock %} {% block content %}
+<div class="content">
+  <h1 class="heading pt-3">{{anime.title}}</h1>
+  <p class="description">Edit Anime Rating and Review</p>
+
+  {% from "bootstrap5/form.html" import render_form %}
+  <form method="POST" action="{{ url_for('edit_anime', anime_entry_id=anime.id) }}">
+  {{ form.csrf_token }}
+  <input type="hidden" name="anime_entry_id" value="{{ anime.id }}">
+  {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+  </form>
+
+</div>
+<div class="content pt-5">
+
+<!--  anime.anime_list.id uses foreign key to reference to id in AnimeList -->
+    <a href="{{url_for('show_list', anime_list_id=anime.anime_list.id)}}" class="btn btn-secondary">Return to List</a>
+</div>
+{% endblock %}

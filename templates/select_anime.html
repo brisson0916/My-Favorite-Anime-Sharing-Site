@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Select Anime{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="heading pt-3">Select Anime</h1>
+    <p>
+<!--  Some anime has year field as null, do not show the field, and put year as blank for the entry in our database  -->
+    {% for anime in anime_data['data']: %}
+        {% if anime['year'] == None: %}
+        <a href="{{url_for('select_anime', anime_list_id=anime_list_id, title=anime['title'], year='', rating=anime['score'], review=anime['background'], mal_url=anime['url'],synopsis=anime['synopsis'], img_url=anime['images']['jpg']['large_image_url'])}}">
+            {{anime['title']}}
+        </a><br>
+        {% else: %}
+        <a href="{{url_for('select_anime', anime_list_id=anime_list_id, title=anime['title'], year=anime['year'], rating=anime['score'], review=anime['background'], mal_url=anime['url'],synopsis=anime['synopsis'], img_url=anime['images']['jpg']['large_image_url'])}}">
+            {{anime['title']}} - {{anime['year']}}
+        </a><br>
+        {% endif %}
+    {% endfor %}
+    </p>
+</div>
+<div class="content pt-5">
+    <a href="{{url_for('add_anime', anime_list_id=anime_list_id)}}" class="btn btn-primary">Search Again</a>
+</div>
+{% endblock %}

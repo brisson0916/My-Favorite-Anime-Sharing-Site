@@ -1,0 +1,17 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% extends 'base.html' %}
+
+{% block title %}Add Anime{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1 class="heading pt-3">Search an Anime to add</h1>
+    <form method="POST" action="{{url_for('add_anime', anime_list_id=anime_list_id)}}">
+        {{ form.csrf_token }}
+        {{render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+    </form>
+</div>
+<div class="content pt-5">
+    <a href="{{url_for('show_list', anime_list_id=anime_list_id)}}" class="btn btn-secondary">Return to List</a>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Anime Entry{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1 class="heading pt-3">Warning!</h1>
+    <p> Are you sure you want to delete your Anime Entry "{{ anime.title }}"? </p>
+</div>
+<div class="content pt-5">
+    <form action="{{ url_for('delete_anime', anime_entry_id=anime.id) }}" method="POST">
+      <button type="submit" class="btn btn-danger mx-1">Delete</button>
+    </form>
+    <a href="{{url_for('show_list', anime_list_id=anime.anime_list.id)}}" class="btn btn-primary mx-1">Cancel</a>
+</div>
+{% endblock %}

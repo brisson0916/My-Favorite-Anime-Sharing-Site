@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Register User{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1 class="heading pt-3">Register User</h1>
+    <p class="description">Set your email, name, and password to register</p>
+    
+    {% from "bootstrap5/form.html" import render_form %}
+    <form method="POST" action="{{url_for('register')}}">
+        {{ register_form.csrf_token }}
+        {% with messages = get_flashed_messages() %}
+         {% if messages %}
+           {% for message in messages %}
+            <p class="flash text-danger">{{ message }}</p>
+           {% endfor %}
+         {% endif %}
+        {% endwith %}
+        {{render_form(register_form, novalidate=True, button_map={"submit": "primary"}) }}
+    </form>
+
+</div>
+<div class="content pt-5">
+    <a href="{{url_for('home')}}" class="btn btn-secondary">Return to Home</a>
+</div>
+{% endblock %}

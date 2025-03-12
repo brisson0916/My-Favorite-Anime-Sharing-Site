@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1 class="heading py-3">{{anime_list_name}}</h1>
+  <p class="description">Here are <a href="{{url_for('lists_by_selected_author', author_name=author.name)}}">
+          {{author.name}}</a>'s Top Favorite Anime!
+  </p>
+
+  {% for anime in all_entries: %}
+  <div class="card" style="width: 500px; height: 600px;">
+    <div class="front" style="background-image: url('{{anime.img_url}}');">
+        <p class="large">{{anime.ranking}}</p>
+    </div>
+    <div class="back">
+      <div>
+    <div class="title">{{anime.title}} <span class="release_date">{{anime.year}}</span></div>
+        <div class="rating">
+            <label>{{anime.rating}}</label>
+          <i class="fas fa-star star"></i>
+        </div>
+          <p class="review">{{anime.review}}</p>
+        <p class="overview">
+            {{anime.description}}
+        </p>
+        <div>
+          <a href="{{anime.mal_url}}" class="btn btn-link btn-sm">Check it out on MAL</a>
+        </div>
+        <!-- Only show edit/delete button if list belongs to user, or if user is admin -->
+        {% if current_user.id == author.id or current_user.id == 1: %}
+            <a href="{{url_for('edit_anime', anime_entry_id=anime.id)}}" class="btn btn-primary btn-sm">Update</a>
+            <a href="{{url_for('delete_anime', anime_entry_id=anime.id)}}" class="btn btn-danger btn-sm">Delete</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<div class="container text-center add">
+
+{% if current_user.id == author.id or current_user.id == 1: %}
+<!--  anime.anime_list.id uses foreign key to reference to id in AnimeList -->
+    <a href="{{url_for('add_anime', anime_list_id=anime_list_id)}}" class="btn btn-primary mb-5">Add Anime</a>
+{% else: %}
+    <a href="{{url_for('logout', message='Only the owner can edit this list.')}}" class="btn btn-primary mb-5">Add Anime</a>
+{% endif %}
+</div>
+
+<div class="container text-center add">
+<a href="{{url_for('home')}}" class="btn btn-secondary mb-5">Return Home</a>
+</div>
+
+{% endblock %}
