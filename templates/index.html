@@ -11,10 +11,12 @@
     {% if current_user.is_authenticated: %}
     <p class="description">You are currently logged in as
       <a href="#">{{ current_user.name }}</a>
-      (User Id : {{current_user.id}})
+      (User Id : {{current_user.id}})<br>
     </p>
+    <p class="description">Check out the source code on <a href="https://github.com/brisson0916/My-Favorite-Anime-Sharing-Site">GitHub</a></p>
     {% else: %}
-    <p class="description">Create your list of top 10 anime and share it with others!</p>
+    <p class="description">Create your list of top 10 anime and share it with others!<br></p>
+    <p class="description">Check out the source code on <a href="https://github.com/brisson0916/My-Favorite-Anime-Sharing-Site">GitHub</a></p>
     {% endif %}
   {% endif %}
 
