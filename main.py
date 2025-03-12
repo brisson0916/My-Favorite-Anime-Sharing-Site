@@ -27,6 +27,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///anime_database.db'
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
+
+#CREATE DATABASE
+#-----------------------------------------------------------------------
 class User(UserMixin, db.Model):
     __tablename__ = "user"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -66,70 +69,9 @@ class AnimeEntry(db.Model):
 with app.app_context():
     db.create_all()
 
-# with app.app_context():
-#     new_user = User(
-#         email="admin@email.com",
-#         name="admin",
-#         password="123456"
-#     )
-#     db.session.add(new_user)
-#     db.session.commit()
-#
-# with app.app_context():
-#     new_user = User(
-#         email="aaa@aaaa.com",
-#         name="user",
-#         password="123456"
-#     )
-#     db.session.add(new_user)
-#     db.session.commit()
-#
-# with app.app_context():
-#     new_anime_list = AnimeList(
-#         name="Brisson's List",
-#         author_id=1
-#     )
-#     db.session.add(new_anime_list)
-#     db.session.commit()
-#
-# with app.app_context():
-#     new_anime_list = AnimeList(
-#         name="User's List",
-#         author_id=2
-#     )
-#     db.session.add(new_anime_list)
-#     db.session.commit()
-#
-# with app.app_context():
-#     new_anime_entry = AnimeEntry(
-#         anime_list_id=2,
-#         title="Clannad: After Story",
-#         year=2008,
-#         description="A high school student who cares little about school or his future decides to help a lonely girl repeating her final year in re-establishing the school's drama club.",
-#         rating=8.93,
-#         ranking=2,
-#         review="It made me cry. Hard.",
-#         img_url="https://cdn.myanimelist.net/images/anime/1299/110774l.jpg",
-#         mal_url="https://myanimelist.net/anime/4181/Clannad__After_Story"
-#     )
-#     db.session.add(new_anime_entry)
-#     db.session.commit()
-#
-# with app.app_context():
-#     new_anime_entry = AnimeEntry(
-#         anime_list_id=2,
-#         title="Test",
-#         year=2008,
-#         description="A high school student who cares little about school or his future decides to help a lonely girl repeating her final year in re-establishing the school's drama club.",
-#         rating=10.0,
-#         ranking=9,
-#         review="It made me cry. Hard.",
-#         img_url="https://cdn.myanimelist.net/images/anime/1299/110774l.jpg",
-#         mal_url="https://myanimelist.net/anime/4181/Clannad__After_Story"
-#     )
-#     db.session.add(new_anime_entry)
-#     db.session.commit()
 
+#PROTECT ROUTES
+#-----------------------------------------------------------------------
 @login_manager.user_loader
 def load_user(user_id):
    return User.query.get(user_id)
@@ -157,6 +99,9 @@ def entry_ownership_required(function):
         return function(anime_entry_id, *args, **kwargs)
     return decorated_function
 
+
+#BACKEND LOGIC
+#-----------------------------------------------------------------------
 @app.route("/", methods=['GET','POST'])
 def home():
     result = db.session.execute(db.select(AnimeList).order_by(desc(AnimeList.date_modified)))
@@ -358,4 +303,4 @@ def delete_anime(anime_entry_id):
     return render_template("delete_anime.html", anime=anime_to_delete)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=False, port=5002)

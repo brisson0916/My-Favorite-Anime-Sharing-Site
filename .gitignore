@@ -3,3 +3,4 @@ instance/
 .webassets-cache
 .idea/
 __pycache__/
+secret.txt
