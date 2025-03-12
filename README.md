@@ -4,7 +4,7 @@
 My first project of my professional portfolio. 
 It is a web app in which users could log in, then create and edit their own list of favorite anime, and share it with others viewing the site.
 
-It uses Bootstrap as frontend framework, Flask as backend framework, and SQLite for database.
+It uses Bootstrap as frontend framework, Flask as backend framework, and PostgreSQL for database.
 
 ## Instructions
 - Create an account first by providing a username, email, and password.
