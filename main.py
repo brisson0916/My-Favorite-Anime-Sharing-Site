@@ -58,7 +58,7 @@ class AnimeEntry(db.Model):
     anime_list = relationship("AnimeList", back_populates="anime_entry")
 
     title: Mapped[str] = mapped_column(String(250), nullable=False)
-    year: Mapped[int] = mapped_column(Integer, nullable=False)
+    year: Mapped[int] = mapped_column(Integer)
     description: Mapped[str] = mapped_column(String, nullable=False)
     rating: Mapped[float] = mapped_column(Float(10))
     ranking: Mapped[int] = mapped_column(Integer)
