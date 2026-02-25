@@ -5,20 +5,33 @@
 {% block content %}
 <div class="container">
     <h1 class="heading pt-3">Select Anime</h1>
-    <p>
-<!--  Some anime has year field as null, do not show the field, and put year as blank for the entry in our database  -->
+
     {% for anime in anime_data['data']: %}
-        {% if anime['year'] == None: %}
-        <a href="{{url_for('select_anime', anime_list_id=anime_list_id, title=anime['title'], year='', rating=anime['score'], review=anime['background'], mal_url=anime['url'],synopsis=anime['synopsis'], img_url=anime['images']['jpg']['large_image_url'])}}">
-            {{anime['title']}}
-        </a><br>
-        {% else: %}
-        <a href="{{url_for('select_anime', anime_list_id=anime_list_id, title=anime['title'], year=anime['year'], rating=anime['score'], review=anime['background'], mal_url=anime['url'],synopsis=anime['synopsis'], img_url=anime['images']['jpg']['large_image_url'])}}">
-            {{anime['title']}} - {{anime['year']}}
-        </a><br>
-        {% endif %}
+    <!--  Some anime has year field as null, do not show the field, and put year as blank for the entry in our database  -->
+    <a href="{{url_for('select_anime', anime_list_id=anime_list_id, title=anime['title'], year=anime['year'] if anime['year'] else '', rating=anime['score'] if anime['score'] else 0, review=anime['background'], mal_url=anime['url'], synopsis=anime['synopsis'], img_url=anime['images']['jpg']['large_image_url'])}}" class="horizontal-card d-block mb-3">
+        <div class="card horizontal">
+            <img src="{{anime['images']['jpg']['large_image_url']}}" class="card-img-left" alt="{{anime['title']}}">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{anime['title']}}
+                    {% if anime['year']: %}
+                    <span class="year-badge">{{anime['year']}}</span>
+                    {% else %}
+                    <span class="year-badge">Unknown</span>
+                    {% endif %}
+                </h5>
+                <div class="rating">
+                    {% if anime['score']: %}
+                    <i class="fas fa-star"></i> {{anime['score']}}/10
+                    {% else %}
+                    <i class="fas fa-star"></i> N/A
+                    {% endif %}
+                </div>
+                <p class="synopsis">{{anime['synopsis']}}</p>
+            </div>
+        </div>
+    </a>
     {% endfor %}
-    </p>
 </div>
 <div class="content pt-5">
     <a href="{{url_for('add_anime', anime_list_id=anime_list_id)}}" class="btn btn-primary">Search Again</a>

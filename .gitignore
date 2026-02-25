@@ -4,3 +4,4 @@ instance/
 .idea/
 __pycache__/
 secret.txt
+CLAUDE.md
