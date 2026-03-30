@@ -1,4 +1,4 @@
-# MY FAVORITE ANIME SHARING SITE
+# Personalized Show Collections Flask Web App
 
 ## Description
 My first project of my professional portfolio. 
